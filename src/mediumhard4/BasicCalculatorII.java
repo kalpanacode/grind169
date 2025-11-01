@@ -5,43 +5,42 @@ package mediumhard4;
 import java.util.Stack;
 
 public class BasicCalculatorII {
-
-    public int calculate(String s) {
-        if (s == null || s.length() == 0) return 0;
-
-        Stack<Integer> stack = new Stack<>();
-        int num = 0;
-        char sign = '+';
-
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-
-            if (Character.isDigit(c)) {
-                num = num * 10 + (c - '0');
+	//BasicCalculatorII
+	public int calculate(String s) {
+        int len = s.length();
+        int cur = 0, prev = 0, res = 0;
+        char curOperation = '+';
+        
+        for (int i = 0; i < len; i++) {
+            char curChar = s.charAt(i);
+            
+            if (Character.isDigit(curChar)) {
+                cur = cur * 10 + (curChar - '0');
             }
-
-            // If c is an operator or last character, compute previous operation
-            if ((!Character.isDigit(c) && c != ' ') || i == s.length() - 1) {
-                if (sign == '+') {
-                    stack.push(num);
-                } else if (sign == '-') {
-                    stack.push(-num);
-                } else if (sign == '*') {
-                    stack.push(stack.pop() * num);
-                } else if (sign == '/') {
-                    stack.push(stack.pop() / num);
+            
+            if (!Character.isDigit(curChar) && curChar != ' ' || i == len - 1) {
+                if (curOperation == '+') {
+                    res += cur;
+                    prev = cur;
+                } else if (curOperation == '-') {
+                    res -= cur;
+                    prev = -cur;
+                } else if (curOperation == '*') {
+                    res -= prev;
+                    prev *= cur;
+                    res += prev;
+                } else if (curOperation == '/') {
+                    res -= prev;
+                    prev /= cur;
+                    res += prev;
                 }
-                sign = c;
-                num = 0;
+                
+                curOperation = curChar;
+                cur = 0;
             }
         }
-
-        int result = 0;
-        for (int val : stack) {
-            result += val;
-        }
-
-        return result;
+        
+        return res;
     }
 
     // Test code to run in Eclipse IDE
