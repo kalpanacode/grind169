@@ -4,19 +4,18 @@ package mediumhard4;
 
 import java.util.*;
 
-public class SerializeDeserializeBinaryTree {
-    // Serialize a tree to a single string
-    public String serialize(TreeNode root) {
-        if (root == null) return "[]";
+public class Codec {
 
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root == null) return "[]";
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-
-        while (!queue.isEmpty()) {
+        while(!queue.isEmpty()) {
             TreeNode node = queue.poll();
-            if (node != null) {
+            if(node != null) {
                 sb.append(node.val).append(',');
                 queue.offer(node.left);
                 queue.offer(node.right);
@@ -25,39 +24,35 @@ public class SerializeDeserializeBinaryTree {
             }
         }
         // Remove trailing commas and null values for cleanliness
-        while (sb.length() > 5 && sb.substring(sb.length() - 5).equals("null,")) {
+        while(sb.length() > 5 && sb.substring(sb.length() - 5).equals("null,")) {
             sb.setLength(sb.length() - 5);
         }
         // Remove trailing comma if exists
-        if (sb.charAt(sb.length() - 1) == ',') {
+        if(sb.charAt(sb.length() - 1) == ',') {
             sb.setLength(sb.length() - 1);
         }
         sb.append(']');
         return sb.toString();
     }
 
-    // Deserialize a string to a tree
+    // Decodes your encoded data to tree.
     public TreeNode deserialize(String data) {
-        if (data.equals("[]")) return null;
-
+        if(data.equals("[]")) return null;
         String[] nodes = data.substring(1, data.length() - 1).split(",");
         TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-
         int index = 1;
-        while (!queue.isEmpty() && index < nodes.length) {
+        while(!queue.isEmpty() && index < nodes.length) {
             TreeNode node = queue.poll();
-
             String leftVal = nodes[index++];
-            if (!leftVal.equals("null")) {
+            if(!leftVal.equals("null")) {
                 node.left = new TreeNode(Integer.parseInt(leftVal));
                 queue.offer(node.left);
             }
-
-            if (index < nodes.length) {
+            if(index < nodes.length) {
                 String rightVal = nodes[index++];
-                if (!rightVal.equals("null")) {
+                if(!rightVal.equals("null")) {
                     node.right = new TreeNode(Integer.parseInt(rightVal));
                     queue.offer(node.right);
                 }
@@ -65,8 +60,9 @@ public class SerializeDeserializeBinaryTree {
         }
         return root;
     }
+    
 
-    // TreeNode class for Eclipse IDE use
+// TreeNode class for Eclipse IDE use
     public static class TreeNode {
         int val;
         TreeNode left;
