@@ -1,5 +1,5 @@
 // https://leetcode.com/problems/largest-rectangle-in-histogram/description/?envType=problem-list-v2&envId=rabvlt31
-
+// https://www.youtube.com/watch?v=zx5Sw9130L0 from 6 min - looks for 2 min..same as Left min calc.
 package mediumhard2;
 
 import java.util.Stack;
