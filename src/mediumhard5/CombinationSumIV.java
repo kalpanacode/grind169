@@ -1,5 +1,8 @@
 // https://leetcode.com/problems/combination-sum-iv/description/?envType=problem-list-v2&envId=rabvlt31
 
+// https://www.youtube.com/watch?v=dw2nMCxG0ik  -
+// After we draw a trace tree in backtracking way, use that as the condition maker for dp
+
 package mediumhard5;
 
 public class CombinationSumIV {
