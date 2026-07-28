@@ -1,5 +1,68 @@
 // https://leetcode.com/problems/basic-calculator-ii/description/?envType=problem-list-v2&envId=rabvlt31
 
+
+// eg: 3+2*5-4  //o/p: 9
+//save the previous operator in sign variable
+
+// Evaluate simple expression containing non-negative integers and + - * /
+// No parentheses. Spaces allowed.
+    public static int evaluate(String s) {
+        if (s == null || s.isEmpty()) return 0;
+
+        Stack<Integer> st = new Stack<>();
+        int n = s.length();
+        char sign = '+';             // last seen operator (treat start as '+')
+        int i = 0;
+
+        while (i < n) {
+            char ch = s.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                // build the full integer value
+                int val = 0;
+                while (i < n && Character.isDigit(s.charAt(i))) {
+                    val = val * 10 + (s.charAt(i) - '0');
+                    i++;
+                }
+                // now 'val' holds the parsed integer, i points to first non-digit or n
+                // apply based on previous sign
+                if (sign == '+') {
+                    st.push(val);
+                } else if (sign == '-') {
+                    st.push(-val);
+                } else if (sign == '*') {
+                    int a = st.pop();
+                    st.push(a * val);
+                } else if (sign == '/') {
+                    int a = st.pop();
+                    st.push(a / val); // integer division truncates toward zero
+                }
+                continue; // continue outer while (i already points at next char)
+            }
+
+            // ignore spaces
+            if (ch == ' ') {
+                i++;
+                continue;
+            }
+
+            // if not digit and not space, it's an operator: update sign and move on
+            sign = ch;
+            i++;
+        }
+
+        // sum all values in stack
+        int result = 0;
+        while (!st.isEmpty()) result += st.pop();
+        return result;
+    }
+
+
+
+
+
+
+//****************************************
 package mediumhard4;
 
 import java.util.Stack;
